@@ -4,6 +4,7 @@ services:
     image: postgres:10
     volumes:
       - db-data:/var/lib/postgresql/data1
+      - ./start_script/startup.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_PASSWORD: compra
       POSTGRES_USER: compra
