@@ -30,6 +30,10 @@
             <column name="status" type="character varying(255)">
                 <constraints nullable="false" />
             </column>
+
+            <column name="identificador" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>
