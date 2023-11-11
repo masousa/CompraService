@@ -1,0 +1,16 @@
+version: "3"
+services:
+  ecommerce_compra_db:
+    image: postgres:10
+    volumes:
+      - db-data:/var/lib/postgresql/data1
+    environment:
+      POSTGRES_PASSWORD: compra
+      POSTGRES_USER: compra
+      POSTGRES_DB: compra
+    ports:
+      - "5433:5432"
+
+volumes:
+  db-data:
+    driver: local

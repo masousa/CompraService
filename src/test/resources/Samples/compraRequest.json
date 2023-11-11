@@ -1,0 +1,25 @@
+{
+  "data-compra": "21/12/23 09:50:10",
+  "carrinho-id": "cb79646c-7de5-11ee-b962-0242ac120002",
+  "cliente":{
+    "id":  "cb7961ec-7de5-11ee-b962-0242ac120002"
+  },
+  "endereco": {
+    "complemento": "",
+    "numero": "12",
+    "cep": "0000000000",
+    "rua": "sample",
+    "bairro": "bairro",
+    "cidade": "cidade",
+    "estado": "estado"
+  },
+  "formas-pagamento": [
+    {
+      "metodo": "debito",
+      "numero-cartao": "123456xxx",
+      "nome-cartao": "Jose Silva",
+      "cvv":"000",
+      "valor": 80.00
+    }
+  ]
+}

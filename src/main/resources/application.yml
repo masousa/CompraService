@@ -1,0 +1,32 @@
+server:
+  servlet:
+    context-path: /
+  port: 9080
+  compression:
+    mime-types:
+      - application/json
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/compra
+    username: compra
+    password: compra
+    continue-on-error: true
+  application:
+    name: ecommerce-compra-service
+  jpa:
+    open-in-view: false
+    show-sql: true
+    format-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 50
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/changelog-local.xml

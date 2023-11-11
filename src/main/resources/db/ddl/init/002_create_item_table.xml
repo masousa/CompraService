@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="init_create_table_item" author="matheus">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="item" />
+            </not>
+        </preConditions>
+        
+        <createTable tableName="item">
+            <column name="id" type="serial" >
+                <constraints primaryKey="true" nullable="false"  />
+            </column>
+
+            <column name="sku" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="valor_unitario" type="decimal(18,2)">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="quantidade_unidade" type="int2" defaultValue="1">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="compra_id" type="int2">
+                <constraints foreignKeyName="fk_compra_item" referencedTableName="compra"
+                             referencedColumnNames="id" nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
