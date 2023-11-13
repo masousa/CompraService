@@ -1,0 +1,15 @@
+package tech.ada.tenthirty.ecommerce.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import tech.ada.tenthirty.ecommerce.model.Compra;
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class NotFoundException extends RuntimeException {
+    public <T> NotFoundException(String idCompra, Class<T> compraClass) {
+
+        super(String.format("Não foi possível encontrar o %s para o identificador informado %s",
+                compraClass.getSimpleName(), idCompra));
+
+    }
+}
