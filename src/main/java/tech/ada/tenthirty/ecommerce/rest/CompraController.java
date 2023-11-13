@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ada.tenthirty.ecommerce.payload.CompraRequest;
 import tech.ada.tenthirty.ecommerce.payload.ItemAdicionadoRequest;
 import tech.ada.tenthirty.ecommerce.payload.response.CompraResponse;
+import tech.ada.tenthirty.ecommerce.services.AdicionarProdutosService;
 import tech.ada.tenthirty.ecommerce.services.RealizarCompraService;
 
 @RestController
@@ -21,6 +22,7 @@ import tech.ada.tenthirty.ecommerce.services.RealizarCompraService;
 public class CompraController {
 
     private final RealizarCompraService realizarCompraService;
+    private final AdicionarProdutosService adicionarProdutosService;
     @Operation(summary = "Realizar a compra")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "compra realizada com sucesso"),
@@ -42,7 +44,7 @@ public class CompraController {
     @PostMapping(value = "/add")
     @ResponseStatus(HttpStatus.CREATED)
     public CompraResponse adicionarItem(@RequestBody ItemAdicionadoRequest itemAdicionadoRequest){
-        return new CompraResponse();
+        return adicionarProdutosService.execute(itemAdicionadoRequest);
     }
 
 }
