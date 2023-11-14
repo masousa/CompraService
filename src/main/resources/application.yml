@@ -30,3 +30,23 @@ spring:
   liquibase:
     enabled: false
     change-log: classpath:db/changelog/changelog-local.xml
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: admin
+    password: passw123
+    cache:
+      connection:
+        mode: CONNECTION
+      channel:
+        size: 50
+      checkout-timeout: 10000
+
+
+negocio:
+  estoque:
+    url: http://localhost:9081
+
+    fila:
+      reservar:
+        out: reservar_estoque
