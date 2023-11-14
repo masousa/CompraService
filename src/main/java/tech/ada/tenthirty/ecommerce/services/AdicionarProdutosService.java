@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import tech.ada.tenthirty.ecommerce.client.EstoqueClient;
+import tech.ada.tenthirty.ecommerce.client.payload.ItemResponse;
 import tech.ada.tenthirty.ecommerce.exception.NotFoundException;
+import tech.ada.tenthirty.ecommerce.exception.QuantidadeIndisponivelException;
 import tech.ada.tenthirty.ecommerce.model.Compra;
 import tech.ada.tenthirty.ecommerce.model.Item;
 import tech.ada.tenthirty.ecommerce.model.StatusCompra;
@@ -26,7 +29,13 @@ public class AdicionarProdutosService {
     private final CompraRepository compraRepository;
     private final ItemRepository itemRepository;
     private final UpdateValorTotalCompraService updateValorTotalCompraService;
+    private final EstoqueClient estoqueClient;
+
     public CompraResponse execute(ItemAdicionadoRequest itemAdicionadoRequest){
+        ItemResponse itemResponse = estoqueClient.consultarEstoqueProduto(itemAdicionadoRequest.getSkuId());
+        if(itemResponse.getQuantidade()<itemAdicionadoRequest.getQuantidade()){
+            throw new QuantidadeIndisponivelException(itemResponse.getSkuId());
+        }
         Compra compra = new Compra();
         if(ObjectUtils.isEmpty(itemAdicionadoRequest.getIdCompra())){
 
