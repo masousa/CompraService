@@ -1,6 +1,7 @@
 package tech.ada.tenthirty.ecommerce.services;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -9,7 +10,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tech.ada.tenthirty.ecommerce.client.EstoqueClient;
+import tech.ada.tenthirty.ecommerce.client.payload.ItemResponse;
 import tech.ada.tenthirty.ecommerce.exception.NotFoundException;
+import tech.ada.tenthirty.ecommerce.exception.QuantidadeIndisponivelException;
 import tech.ada.tenthirty.ecommerce.model.Compra;
 import tech.ada.tenthirty.ecommerce.model.Item;
 import tech.ada.tenthirty.ecommerce.model.StatusCompra;
@@ -42,6 +46,17 @@ public class AdicionarProdutosServiceTest {
 
     @Mock
     private UpdateValorTotalCompraService updateValorTotalCompraService;
+
+    @Mock
+    private EstoqueClient estoqueClient;
+
+    @BeforeEach
+    public void setup(){
+        ItemResponse itemResponse = new ItemResponse();
+        itemResponse.setQuantidade(50);
+        when(estoqueClient.consultarEstoqueProduto(anyString()))
+                .thenReturn(itemResponse);
+    }
 
     @Test
     void shouldSaveANewCompra(){
@@ -83,6 +98,20 @@ public class AdicionarProdutosServiceTest {
         itemAdicionado.setIdCompra("Any");
 
           assertThrows(NotFoundException.class,() -> adicionarProdutosService
+                .execute(itemAdicionado));
+
+    }
+
+    @Test
+     void shouldRaiseAnErrorWithStockQuantityIsLessThanRequired(){
+
+        Compra compraSample = getCompraSample();
+        Mockito.when(compraRepository.findByIdentificador(ArgumentMatchers.anyString()))
+                .thenReturn(Optional.of(compraSample));
+        ItemAdicionadoRequest itemAdicionado = getItemAdicionado("123", 12.4);
+        itemAdicionado.setQuantidade(51);
+        itemAdicionado.setIdCompra(compraSample.getIdentificador());
+        assertThrows(QuantidadeIndisponivelException.class, ()-> adicionarProdutosService
                 .execute(itemAdicionado));
 
     }
